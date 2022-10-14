@@ -2,9 +2,9 @@
 
 namespace CodeLabX\XtendLaravel\Tests;
 
+use CodeLabX\XtendLaravel\XtendLaravelServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use CodeLabX\XtendLaravel\XtendLaravelServiceProvider;
 
 class TestCase extends Orchestra
 {
