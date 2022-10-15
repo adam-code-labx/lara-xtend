@@ -4,6 +4,8 @@ namespace CodeLabX\XtendLaravel;
 
 use CodeLabX\XtendLaravel\Base\ExtendsProvider;
 use CodeLabX\XtendLaravel\Commands\XtendLaravelSetupCommand;
+use CodeLabX\XtendLaravel\Services\Translation\FileLoader;
+use CodeLabX\XtendLaravel\Services\Translation\TranslationServiceProvider;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -18,6 +20,12 @@ class XtendLaravelServiceProvider extends PackageServiceProvider
     public function registeringPackage()
     {
         $this->setViewsPath();
+        $this->app->register(TranslationServiceProvider::class);
+
+        $this->app->singleton('translation.loader', function ($app) {
+            return new FileLoader($app['files'], $app['path.lang']);
+        });
+
         $this->registerPackageProviders();
         $this->registerWithPackageFacades();
     }
@@ -76,6 +84,7 @@ class XtendLaravelServiceProvider extends PackageServiceProvider
     {
         $this->bootWithPackageFacades();
         $this->loadViewsFrom($this->package->basePath('/../resources/views'), 'xtend-laravel');
+        $this->loadTranslationsFrom($this->package->basePath('/../resources/lang'), 'xtend-laravel');
     }
 
     protected function bootWithPackageFacades(): void
