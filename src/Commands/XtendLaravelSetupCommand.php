@@ -11,22 +11,30 @@ class XtendLaravelSetupCommand extends Command
 
     public $description = 'Setup the XtendLaravel package structure with your laravel application';
 
+    public function __construct(protected Filesystem $filesystem)
+    {
+        parent::__construct();
+    }
+
     public function handle(): int
     {
-        $xtendPackageDir = $this->ask('Name of the directory to extend packages from?', 'xtend');
-        $vendorLang = $this->confirm('Override translations from this directory?', true);
-        $vendorViews = $this->confirm('Override package views from this directory?', true);
-        $vendorConfig = $this->confirm('Override package config from this directory?', true);
+        $this->createXtendStructure();
 
-        if (! is_dir($xtendPackageDir = $this->laravel->basePath($xtendPackageDir))) {
-            (new Filesystem)->makeDirectory($xtendPackageDir);
-            $this->info("Created directory {$xtendPackageDir}");
-        }
-
-        $this->info("Using directory {$xtendPackageDir} to extend packages from");
-
-        $this->comment('All done');
+        $this->info('All done');
 
         return self::SUCCESS;
+    }
+
+    protected function createXtendStructure(): void
+    {
+        $xtendPackageDir = config('xtend-laravel.directory', 'xtend');
+
+        if (! $this->filesystem->isDirectory($path = $this->laravel->basePath($xtendPackageDir))) {
+            $this->filesystem->makeDirectory($path.'/Core', 0755, true);
+            $this->filesystem->put($path.'/Core/.gitkeep', '');
+            $this->comment('Created Xtend directory structure');
+        } else {
+            $this->comment('Xtend directory structure already exists');
+        }
     }
 }
