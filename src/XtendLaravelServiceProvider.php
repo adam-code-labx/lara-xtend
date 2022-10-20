@@ -3,6 +3,8 @@
 namespace CodeLabX\XtendLaravel;
 
 use CodeLabX\XtendLaravel\Base\ExtendsProvider;
+use CodeLabX\XtendLaravel\Base\XtendPackage;
+use CodeLabX\XtendLaravel\Base\XtendPackageManager;
 use CodeLabX\XtendLaravel\Commands\XtendLaravelSetupCommand;
 use CodeLabX\XtendLaravel\Services\Translation\FileLoader;
 use CodeLabX\XtendLaravel\Services\Translation\TranslationServiceProvider;
@@ -65,16 +67,12 @@ class XtendLaravelServiceProvider extends PackageServiceProvider
 
     public function configurePackage(Package $package): void
     {
-        /*
-         * This class is a Package Service Provider
-         *
-         * More info: https://github.com/spatie/laravel-package-tools
-         */
         $package
             ->name('xtend-laravel')
             ->hasConfigFile()
             ->hasViews()
-            ->hasMigration('create_xtend-laravel_table')
+            ->hasMigration('create_xtend_packages-table')
+            ->runsMigrations()
             ->hasCommands([
                 XtendLaravelSetupCommand::class,
             ]);
@@ -82,6 +80,10 @@ class XtendLaravelServiceProvider extends PackageServiceProvider
 
     public function bootingPackage()
     {
+        $this->app->singleton('xtend.package-manager', function () {
+            return new XtendPackageManager(resolve(XtendPackage::class));
+        });
+
         $this->bootWithPackageFacades();
         $this->loadViewsFrom($this->package->basePath('/../resources/views'), 'xtend-laravel');
         $this->loadTranslationsFrom($this->package->basePath('/../resources/lang'), 'xtend-laravel');
