@@ -15,22 +15,15 @@ class FileLoader extends \Illuminate\Translation\FileLoader
      */
     protected function loadNamespaceOverrides(array $lines, $locale, $group, $namespace)
     {
-        $file = "{$this->getPath()}/vendor/{$namespace}/{$locale}/{$group}.php";
+        $file = "{$this->path}/{$locale}/{$group}.php";
+        if (! $this->files->exists($file)) {
+            $file = app()->langPath()."/vendor/{$namespace}/{$locale}/{$group}.php";
+        }
 
         if ($this->files->exists($file)) {
             return array_replace_recursive($lines, $this->files->getRequire($file));
         }
 
         return $lines;
-    }
-
-    /**
-     * Get the path to the xtend laravel directory.
-     *
-     * @return string
-     */
-    protected function getPath(): string
-    {
-        return __DIR__.'/../../../lang';
     }
 }

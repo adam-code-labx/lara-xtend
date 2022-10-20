@@ -21,19 +21,16 @@ class XtendLaravelServiceProvider extends PackageServiceProvider
 
     public function registeringPackage()
     {
-        $this->setViewsPath();
-        $this->app->register(TranslationServiceProvider::class);
-
-        $this->app->singleton('translation.loader', function ($app) {
-            return new FileLoader($app['files'], $app['path.lang']);
-        });
-
         $this->registerPackageProviders();
         $this->registerWithPackageFacades();
     }
 
     protected function registerPackageProviders(): void
     {
+        $this->app->singleton('xtend.package-manager', function () {
+            return new XtendPackageManager(resolve(XtendPackage::class));
+        });
+
         $this->getPackageProviders()->each(function ($provider) {
             $this->app->register($provider);
         });
@@ -80,13 +77,7 @@ class XtendLaravelServiceProvider extends PackageServiceProvider
 
     public function bootingPackage()
     {
-        $this->app->singleton('xtend.package-manager', function () {
-            return new XtendPackageManager(resolve(XtendPackage::class));
-        });
-
         $this->bootWithPackageFacades();
-        $this->loadViewsFrom($this->package->basePath('/../resources/views'), 'xtend-laravel');
-        $this->loadTranslationsFrom($this->package->basePath('/../resources/lang'), 'xtend-laravel');
     }
 
     protected function bootWithPackageFacades(): void
@@ -96,8 +87,10 @@ class XtendLaravelServiceProvider extends PackageServiceProvider
         });
     }
 
-    protected function setViewsPath(): void
+    public function provides(): array
     {
-        config()->set('view.paths', array_merge([__DIR__.'/../resources/views'], config('view.paths')));
+        return [
+            'xtend.package-manager',
+        ];
     }
 }
