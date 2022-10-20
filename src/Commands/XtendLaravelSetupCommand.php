@@ -2,8 +2,10 @@
 
 namespace CodeLabX\XtendLaravel\Commands;
 
+use CodeLabX\XtendLaravel\Facades\XtendLaravel;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Schema;
 
 class XtendLaravelSetupCommand extends Command
 {
@@ -18,6 +20,7 @@ class XtendLaravelSetupCommand extends Command
 
     public function handle(): int
     {
+        $this->initialSetup();
         $this->createXtendStructure();
 
         $this->info('All done');
@@ -25,16 +28,57 @@ class XtendLaravelSetupCommand extends Command
         return self::SUCCESS;
     }
 
+    protected function initialSetup(): void
+    {
+        if (Schema::hasTable('xtend_packages')) {
+            $this->warn('Skipping initial setup, xtend_packages table already exists');
+            return;
+        }
+
+        $this->info('Initial setup');
+
+        $this->comment('Running migrations...');
+        $this->call('migrate');
+
+        $this->setupPackages();
+
+        $this->call('vendor:publish', ['--tag' => 'xtend-laravel-config']);
+        $this->starGitHubRepo();
+    }
+
+    protected function setupPackages(): void
+    {
+        $this->comment('Installing packages...');
+        XtendLaravel::manager()->installPackages();
+    }
+
     protected function createXtendStructure(): void
     {
         $xtendPackageDir = config('xtend-laravel.directory', 'xtend');
+        if (! $exists = $this->filesystem->isDirectory($path = $this->laravel->basePath($xtendPackageDir))) {
+            $this->filesystem->makeDirectory($path.'/Extensions', 0755, true);
+        }
 
-        if (! $this->filesystem->isDirectory($path = $this->laravel->basePath($xtendPackageDir))) {
-            $this->filesystem->makeDirectory($path.'/Core', 0755, true);
-            $this->filesystem->put($path.'/Core/.gitkeep', '');
-            $this->comment('Created Xtend directory structure');
-        } else {
-            $this->comment('Xtend directory structure already exists');
+        $this->comment($exists
+            ? 'Xtend directory structure already exists'
+            : 'Created Xtend directory structure located at '.$path
+        );
+    }
+
+    protected function starGitHubRepo(): void
+    {
+        if ($this->confirm('Would you like to star our repo on GitHub?')) {
+            $repoUrl = 'https://github.com/adam-code-labx/xtend-laravel';
+
+            if (PHP_OS_FAMILY == 'Darwin') {
+                exec("open {$repoUrl}");
+            }
+            if (PHP_OS_FAMILY == 'Windows') {
+                exec("start {$repoUrl}");
+            }
+            if (PHP_OS_FAMILY == 'Linux') {
+                exec("xdg-open {$repoUrl}");
+            }
         }
     }
 }
