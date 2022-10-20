@@ -32,6 +32,7 @@ class XtendLaravelSetupCommand extends Command
     {
         if (Schema::hasTable('xtend_packages')) {
             $this->warn('Skipping initial setup, xtend_packages table already exists');
+
             return;
         }
 
