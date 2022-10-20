@@ -1,4 +1,8 @@
-![XtendLaravel Dark](https://www.codelabx.ltd/assets/images/xtend-laravel/xtend-laravel-banner-dark.png#gh-dark-mode-only)![XtendLaravel Light](https://www.codelabx.ltd/assets/images/xtend-laravel/xtend-laravel-banner-light.png#gh-light-mode-only)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://www.codelabx.ltd/assets/images/xtend-laravel/xtend-laravel-banner-dark.png">
+  <img alt="XtendLaravel" src="https://www.codelabx.ltd/assets/images/xtend-laravel/xtend-laravel-banner-light.png">
+</picture>
+
 # XtendLaravel
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/adam-code-labx/xtend-laravel.svg?style=flat-square)](https://packagist.org/packages/adam-code-labx/xtend-laravel)
