@@ -14,7 +14,8 @@ class PackageInfo
 
     protected bool $isEnabled = false;
 
-    public function __construct(protected string $name) {
+    public function __construct(protected string $name)
+    {
         $this->setVersion();
     }
 
@@ -26,24 +27,28 @@ class PackageInfo
     public function setVersion(): static
     {
         $this->version = InstalledVersions::getVersion($this->name);
+
         return $this;
     }
 
     public function data(array $data): static
     {
         $this->data = $data;
+
         return $this;
     }
 
     public function namespace(string $namespace): static
     {
         $this->namespace = $namespace;
+
         return $this;
     }
 
     public function enabled(bool $isEnabled = true): static
     {
         $this->isEnabled = $isEnabled;
+
         return $this;
     }
 
