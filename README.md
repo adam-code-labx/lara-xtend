@@ -1,19 +1,22 @@
-# Set of tools to extend Laravel Packages
+![XtendLaravel Dark](https://www.codelabx.ltd/assets/images/xtend-laravel/xtend-laravel-banner-dark.png#gh-dark-mode-only)![XtendLaravel Light](https://www.codelabx.ltd/assets/images/xtend-laravel/xtend-laravel-banner-light.png#gh-light-mode-only)
+# XtendLaravel
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/adam-code-labx/xtend-laravel.svg?style=flat-square)](https://packagist.org/packages/adam-code-labx/xtend-laravel)
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/adam-code-labx/xtend-laravel/run-tests?label=tests)](https://github.com/adam-code-labx/xtend-laravel/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/adam-code-labx/xtend-laravel/Fix%20PHP%20code%20style%20issues?label=code%20style)](https://github.com/adam-code-labx/xtend-laravel/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/adam-code-labx/xtend-laravel.svg?style=flat-square)](https://packagist.org/packages/adam-code-labx/xtend-laravel)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+Set of tools to extend Laravel Packages.
 
-## Support us
+## Example use case:
+- New Laravel 9 Projects
+- Existing projects (Upgrades & Refactoring)
+- Package Contributors (Test out features before any planned release)
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/xtend-laravel.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/xtend-laravel)
+## What does this package do?
 
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+Allows developers to extend any Laravel Packages while keeping their application code clean and tidy, all the logic for package extensions in one place outside the main App namespace.
+This allows for seamless upgrades and refactoring of your application.
 
 ## Installation
 
@@ -23,37 +26,16 @@ You can install the package via composer:
 composer require adam-code-labx/xtend-laravel
 ```
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="xtend-laravel-migrations"
-php artisan migrate
-```
-
 You can publish the config file with:
 
 ```bash
 php artisan vendor:publish --tag="xtend-laravel-config"
 ```
 
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
-Optionally, you can publish the views using
+## Initial Setup
 
 ```bash
-php artisan vendor:publish --tag="xtend-laravel-views"
-```
-
-## Usage
-
-```php
-$xtendLaravel = new CodeLabX\XtendLaravel();
-echo $xtendLaravel->echoPhrase('Hello, CodeLabX!');
+php artisan xtend-laravel:setup
 ```
 
 ## Testing
@@ -70,14 +52,18 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
-
 ## Credits
 
 - [Adam Lee](https://github.com/adam-code-labx)
 - [All Contributors](../../contributors)
+
+## Security Vulnerabilities
+
+If you discover a security vulnerability within Xtend Laravel, please open an issue. All security vulnerabilities will be promptly addressed.
+
+## Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
 
 ## License
 
