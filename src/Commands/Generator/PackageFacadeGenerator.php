@@ -2,8 +2,6 @@
 
 namespace CodeLabX\XtendLaravel\Commands\Generator;
 
-use Illuminate\Support\Str;
-
 class PackageFacadeGenerator extends GeneratorCommand
 {
     protected $signature = 'xtend:generate-facade
@@ -30,6 +28,7 @@ class PackageFacadeGenerator extends GeneratorCommand
     {
         $facade = class_basename($name);
         $name = $this->argument('package-name');
+
         return parent::getPath($name).'Facades/'.$facade.'.php';
     }
 
@@ -40,6 +39,7 @@ class PackageFacadeGenerator extends GeneratorCommand
     {
         $stub = parent::buildClass($name);
         $stub = str_replace('{{ packageName }}', $this->argument('package-name'), $stub);
+
         return $stub;
     }
 }

@@ -34,6 +34,7 @@ class PackageProviderGenerator extends GeneratorCommand
     {
         $provider = class_basename($name);
         $name = $this->argument('package-name');
+
         return parent::getPath($name).'Providers/'.$provider.'.php';
     }
 
@@ -51,6 +52,7 @@ class PackageProviderGenerator extends GeneratorCommand
     protected function buildClass($name)
     {
         $stub = parent::buildClass($name);
+
         return $this->replacePackageProvider($stub, $name);
     }
 

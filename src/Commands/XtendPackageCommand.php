@@ -3,6 +3,7 @@
 namespace CodeLabX\XtendLaravel\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\PackageManifest;
 use Illuminate\Support\Str;
 
@@ -10,13 +11,17 @@ class XtendPackageCommand extends Command
 {
     protected $signature = 'xtend:package
         {name : The composer vendor package name}
+        {--mono-repo : Use the mono-repo structure}
         {--force : Overwrite the package if it exists}';
 
     protected $description = 'Xtend package generator';
 
     protected PackageManifest $packageManifest;
 
-    protected array $monoRepoPackages = [];
+    public function __construct(protected Filesystem $filesystem)
+    {
+        parent::__construct();
+    }
 
     public function handle(PackageManifest $packageManifest): int
     {
@@ -35,6 +40,10 @@ class XtendPackageCommand extends Command
 
         $this->extendProviders();
         $this->createFacade();
+
+        $this->option('mono-repo')
+            ? $this->createMonoRepoPackageStructure()
+            : $this->createResourcesStructure($this->getXtendPackagePath());
     }
 
     protected function extendProviders(): void
@@ -60,8 +69,35 @@ class XtendPackageCommand extends Command
         ]);
     }
 
+    protected function createMonoRepoPackageStructure(): void
+    {
+        if ($this->filesystem->isDirectory($path = $this->laravel->basePath('vendor/'.$this->argument('name').'/packages'))) {
+            collect($this->filesystem->directories($path))->each(function ($packagePath) {
+                $packageName = Str::of(basename($packagePath))->studly()->__toString();
+
+                $this->filesystem->ensureDirectoryExists($this->getXtendPackagePath().'/Packages/'.$packageName);
+                $this->createResourcesStructure($this->getXtendPackagePath().'/Packages/'.$packageName);
+            });
+
+        }
+    }
+
+    protected function createResourcesStructure($packageDir): void
+    {
+        foreach (['assets', 'lang', 'views'] as $resourceDirectory) {
+            $this->filesystem->ensureDirectoryExists($packageDir.'/Resources/'.$resourceDirectory);
+            $this->filesystem->put($packageDir.'/Resources/'.$resourceDirectory.'/.gitkeep', '');
+        }
+    }
+
     protected function getPackageName(): string
     {
         return Str::of($this->argument('name'))->afterLast('/')->studly()->__toString();
+    }
+
+    protected function getXtendPackagePath(): string
+    {
+        $path = $this->laravel->basePath(config('xtend-laravel.directory'));
+        return $path.'/Extensions/'.$this->getPackageName();
     }
 }

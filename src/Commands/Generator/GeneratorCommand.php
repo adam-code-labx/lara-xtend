@@ -24,6 +24,7 @@ abstract class GeneratorCommand extends \Illuminate\Console\GeneratorCommand
     {
         $name = Str::replaceFirst($this->rootNamespace(), '', $name);
         $path = $this->laravel->basePath(config('xtend-laravel.directory'));
+
         return $path.'/Extensions/'.$name.'/';
     }
 
