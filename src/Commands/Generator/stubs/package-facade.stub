@@ -6,21 +6,21 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * Class {{ class }}Extend
+ * Class {{ class }}
  *
  * @method static void withRegister()
  * @method static void withBoot()
  * @method static void bootWithModels(Collection $models)
  *
- * @see \Xtend\Extensions\{{ class }}\{{ class }}Extend
+ * @see \Xtend\Extensions\{{ packageName }}\Xtend{{ packageName }}
  */
-class {{ class }}Extend extends Facade
+class {{ class }} extends Facade
 {
     /**
      * {@inheritdoc}
      */
     protected static function getFacadeAccessor()
     {
-        return \Xtend\Extensions\{{ class }}\{{ class }}Extend::class;
+        return \Xtend\Extensions\{{ packageName }}\Xtend{{ packageName }}::class;
     }
 }

@@ -48,7 +48,7 @@ class XtendLaravelServiceProvider extends PackageServiceProvider
             ->filter(fn (SplFileInfo $file) => Str::endsWith($file->getRelativePath(), 'Providers'))
             ->each(function (SplFileInfo $file) {
                 $packageNamespace = Str::of($file->getRelativePath())->between('Extensions/', '/Providers')->toString();
-                $this->extendedPackageFacades->put($packageNamespace, 'Xtend\\Extensions\\'.$packageNamespace.'\\Facades\\'.$packageNamespace.'Extend');
+                $this->extendedPackageFacades->put($packageNamespace, 'Xtend\\Extensions\\'.$packageNamespace.'\\Facades\\Xtend'.$packageNamespace);
             })
             ->map(function (SplFileInfo $file): string {
                 return (string) Str::of('Xtend')

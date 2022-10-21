@@ -16,6 +16,8 @@ class XtendPackageCommand extends Command
 
     protected PackageManifest $packageManifest;
 
+    protected array $monoRepoPackages = [];
+
     public function handle(PackageManifest $packageManifest): int
     {
         $this->packageManifest = $packageManifest;
@@ -32,7 +34,7 @@ class XtendPackageCommand extends Command
         ]);
 
         $this->extendProviders();
-        //$this->createFacade();
+        $this->createFacade();
     }
 
     protected function extendProviders(): void
@@ -52,8 +54,8 @@ class XtendPackageCommand extends Command
     protected function createFacade(): void
     {
         $this->call('xtend:generate-facade', [
-            'name' => $this->argument('name'),
-            'package-name' => $this->argument('name'),
+            'name' => 'Xtend'.$this->getPackageName(),
+            'package-name' => $this->getPackageName(),
             '--force' => $this->option('force'),
         ]);
     }
