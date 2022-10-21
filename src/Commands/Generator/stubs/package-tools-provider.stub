@@ -1,0 +1,16 @@
+<?php
+
+namespace {{ namespace }};
+
+use CodeLabX\XtendLaravel\Concerns\HasPackageTools;
+use {{ packageProvider }} as {{ packageBaseProvider }};
+
+class {{ class }} extends {{ packageBaseProvider }}
+{
+    use HasPackageTools;
+
+    public function packageBooted(): void
+    {
+        parent::packageBooted();
+    }
+}

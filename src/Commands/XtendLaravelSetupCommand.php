@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Schema;
 
 class XtendLaravelSetupCommand extends Command
 {
-    public $signature = 'xtend-laravel:setup';
+    protected $signature = 'xtend-laravel:setup';
 
-    public $description = 'Setup the XtendLaravel package structure with your laravel application';
+    protected $description = 'Setup the XtendLaravel package structure with your laravel application';
 
     public function __construct(protected Filesystem $filesystem)
     {
@@ -23,7 +23,7 @@ class XtendLaravelSetupCommand extends Command
         $this->initialSetup();
         $this->createXtendStructure();
 
-        $this->info('All done');
+        $this->components->info('All done');
 
         return self::SUCCESS;
     }
@@ -31,7 +31,7 @@ class XtendLaravelSetupCommand extends Command
     protected function initialSetup(): void
     {
         if (Schema::hasTable('xtend_packages')) {
-            $this->warn('Skipping initial setup, xtend_packages table already exists');
+            $this->components->warn('Skipping initial setup, xtend_packages table already exists');
             return;
         }
 
@@ -48,7 +48,7 @@ class XtendLaravelSetupCommand extends Command
 
     protected function setupPackages(): void
     {
-        $this->comment('Installing packages...');
+        $this->components->info('Installing packages...');
         XtendLaravel::manager()->installPackages();
     }
 
@@ -59,15 +59,16 @@ class XtendLaravelSetupCommand extends Command
             $this->filesystem->makeDirectory($path.'/Extensions', 0755, true);
         }
 
-        $this->comment($exists
-            ? 'Xtend directory structure already exists'
-            : 'Created Xtend directory structure located at '.$path
+        $this->components->info(
+            $exists
+                ? 'Xtend directory structure already exists'
+                : 'Created Xtend directory structure located at '.$path
         );
     }
 
     protected function starGitHubRepo(): void
     {
-        if ($this->confirm('Would you like to star our repo on GitHub?')) {
+        if ($this->components->confirm('Would you like to star our repo on GitHub?')) {
             $repoUrl = 'https://github.com/adam-code-labx/xtend-laravel';
 
             if (PHP_OS_FAMILY == 'Darwin') {

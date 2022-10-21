@@ -5,9 +5,11 @@ namespace CodeLabX\XtendLaravel;
 use CodeLabX\XtendLaravel\Base\ExtendsProvider;
 use CodeLabX\XtendLaravel\Base\XtendPackage;
 use CodeLabX\XtendLaravel\Base\XtendPackageManager;
+use CodeLabX\XtendLaravel\Commands\Generator\PackageFacadeGenerator;
+use CodeLabX\XtendLaravel\Commands\Generator\PackageGenerator;
+use CodeLabX\XtendLaravel\Commands\Generator\PackageProviderGenerator;
 use CodeLabX\XtendLaravel\Commands\XtendLaravelSetupCommand;
-use CodeLabX\XtendLaravel\Services\Translation\FileLoader;
-use CodeLabX\XtendLaravel\Services\Translation\TranslationServiceProvider;
+use CodeLabX\XtendLaravel\Commands\XtendPackageCommand;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -72,6 +74,10 @@ class XtendLaravelServiceProvider extends PackageServiceProvider
             ->runsMigrations()
             ->hasCommands([
                 XtendLaravelSetupCommand::class,
+                XtendPackageCommand::class,
+                PackageGenerator::class,
+                PackageProviderGenerator::class,
+                PackageFacadeGenerator::class,
             ]);
     }
 

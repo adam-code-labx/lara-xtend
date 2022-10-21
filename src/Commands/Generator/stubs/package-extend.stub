@@ -1,0 +1,28 @@
+<?php
+
+namespace {{ namespace }};
+
+use CodeLabX\XtendLaravel\Base\ExtendsProvider;
+
+class {{ class }}Extend extends ExtendsProvider
+{
+    /**
+     * Extends register service provider
+     *
+     * @return void
+     */
+    public function withRegister(): void
+    {
+        //
+    }
+
+    /**
+     * Extends boot service provider
+     *
+     * @return void
+     */
+    public function withBoot(): void
+    {
+        //
+    }
+}

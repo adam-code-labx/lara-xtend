@@ -1,0 +1,9 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ packageProvider }} as {{ packageBaseProvider }};
+
+class {{ class }} extends {{ packageBaseProvider }}
+{
+}

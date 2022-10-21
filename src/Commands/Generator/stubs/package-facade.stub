@@ -1,0 +1,26 @@
+<?php
+
+namespace {{ namespace }}\Facades;
+
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Facade;
+
+/**
+ * Class {{ class }}Extend
+ *
+ * @method static void withRegister()
+ * @method static void withBoot()
+ * @method static void bootWithModels(Collection $models)
+ *
+ * @see \Xtend\Extensions\{{ class }}\{{ class }}Extend
+ */
+class {{ class }}Extend extends Facade
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected static function getFacadeAccessor()
+    {
+        return \Xtend\Extensions\{{ class }}\{{ class }}Extend::class;
+    }
+}
