@@ -25,6 +25,6 @@ class PackageGenerator extends GeneratorCommand
      */
     protected function getPath($name): string
     {
-        return parent::getPath($name).class_basename($name).'Extend.php';
+        return parent::getPath($name).'Xtend'.class_basename($name).'.php';
     }
 }
