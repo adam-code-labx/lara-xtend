@@ -23,7 +23,7 @@ class XtendLaravelServiceProvider extends PackageServiceProvider
 
     public function registeringPackage()
     {
-        if (!$this->app->runningUnitTests()) {
+        if (! $this->app->runningUnitTests()) {
             $this->registerPackageProviders();
             $this->registerWithPackageFacades();
         }
@@ -85,7 +85,7 @@ class XtendLaravelServiceProvider extends PackageServiceProvider
 
     public function bootingPackage()
     {
-        if (!$this->app->runningUnitTests()) {
+        if (! $this->app->runningUnitTests()) {
             $this->bootWithPackageFacades();
         }
     }
