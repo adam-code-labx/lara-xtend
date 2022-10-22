@@ -1,12 +1,12 @@
 {
-    "name": "adam-code-labx/xtend-laravel",
+    "name": "xtend-laravel/xtend",
     "description": "Set of tools to extend Laravel Packages",
     "keywords": [
-        "adam-code-labx",
+        "code-labx",
         "laravel",
         "xtend-laravel"
     ],
-    "homepage": "https://github.com/adam-code-labx/xtend-laravel",
+    "homepage": "https://github.com/xtend-laravel/xtend",
     "license": "MIT",
     "authors": [
         {
