@@ -10,7 +10,7 @@ class PackageInfo
 
     protected array $data = [];
 
-    protected string $namespace = 'CodeLabX\\XtendLaravel\\Extensions';
+    protected ?string $namespace = 'CodeLabX\\XtendLaravel\\Extensions';
 
     protected bool $isEnabled = false;
 
@@ -38,7 +38,7 @@ class PackageInfo
         return $this;
     }
 
-    public function namespace(string $namespace): static
+    public function namespace(?string $namespace = null): static
     {
         $this->namespace = $namespace;
 
