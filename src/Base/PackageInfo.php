@@ -10,7 +10,7 @@ class PackageInfo
 
     protected array $data = [];
 
-    protected ?string $namespace = 'CodeLabX\\XtendLaravel\\Extensions';
+    protected ?string $namespace = 'Xtend\\Extensions';
 
     protected bool $isEnabled = false;
 
