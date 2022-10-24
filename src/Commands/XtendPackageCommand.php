@@ -2,6 +2,8 @@
 
 namespace CodeLabX\XtendLaravel\Commands;
 
+use CodeLabX\XtendLaravel\Base\PackageInfo;
+use CodeLabX\XtendLaravel\Facades\XtendLaravel;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\PackageManifest;
@@ -44,6 +46,11 @@ class XtendPackageCommand extends Command
         $this->option('mono-repo')
             ? $this->createMonoRepoPackageStructure()
             : $this->createResourcesStructure($this->getXtendPackagePath());
+
+        $this->components->info('Installing package...');
+        XtendLaravel::manager()->installPackage(
+            PackageInfo::make($this->argument('name'))->enabled(),
+        );
     }
 
     protected function extendProviders(): void
