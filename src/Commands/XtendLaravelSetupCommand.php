@@ -49,7 +49,7 @@ class XtendLaravelSetupCommand extends Command
     protected function setupPackages(): void
     {
         $this->components->info('Installing packages...');
-        XtendLaravel::manager()->installPackages();
+        XtendLaravel::manager()->installDefaultPackages();
     }
 
     protected function createXtendStructure(): void

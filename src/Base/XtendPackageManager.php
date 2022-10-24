@@ -6,9 +6,9 @@ class XtendPackageManager
 {
     public function __construct(protected XtendPackage $xtend) {}
 
-    public function installPackages(): void
+    public function installDefaultPackages(): void
     {
-        foreach ($this->getPackages() as $package) {
+        foreach ($this->getDefaultPackages() as $package) {
             $this->xtend->updateOrCreate(
                 ['name' => $package->getName()],
                 $package->toArray()
@@ -16,11 +16,11 @@ class XtendPackageManager
         }
     }
 
-    protected function getPackages(): array
+    protected function getDefaultPackages(): array
     {
         return [
-            PackageInfo::make('laravel/framework')->enabled(),
-            PackageInfo::make('livewire/livewire')->enabled(),
+            PackageInfo::make('laravel/framework')->namespace()->enabled(),
+            PackageInfo::make('livewire/livewire')->namespace()->enabled(),
         ];
     }
 }
