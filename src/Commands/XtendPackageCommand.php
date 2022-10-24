@@ -7,6 +7,7 @@ use CodeLabX\XtendLaravel\Facades\XtendLaravel;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\PackageManifest;
+use Illuminate\Support\Composer;
 use Illuminate\Support\Str;
 
 class XtendPackageCommand extends Command
@@ -20,15 +21,18 @@ class XtendPackageCommand extends Command
 
     protected PackageManifest $packageManifest;
 
-    public function __construct(protected Filesystem $filesystem)
+    public function __construct(
+        protected Filesystem $filesystem,
+        protected Composer $composer)
     {
         parent::__construct();
     }
 
     public function handle(PackageManifest $packageManifest): int
     {
-        $this->packageManifest = $packageManifest;
-        $this->extendPackage();
+        //$this->packageManifest = $packageManifest;
+        //$this->extendPackage();
+        $this->addPackageToDontDiscover();
 
         return self::SUCCESS;
     }
@@ -106,5 +110,18 @@ class XtendPackageCommand extends Command
     {
         $path = $this->laravel->basePath(config('xtend-laravel.directory'));
         return $path.'/Extensions/'.$this->getPackageName();
+    }
+
+    protected function addPackageToDontDiscover(): void
+    {
+        $composerPath = app()->basePath('composer.json');
+        $composer = json_decode(file_get_contents($composerPath), true);
+
+        $this->components->info('Adding package to dont-discover...');
+
+        $composer['extra']['laravel']['dont-discover'][] = $this->argument('name');
+        file_put_contents($composerPath, json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+        $this->composer->dumpAutoloads();
     }
 }
