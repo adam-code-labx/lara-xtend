@@ -12,6 +12,7 @@ use CodeLabX\XtendLaravel\Commands\XtendLaravelSetupCommand;
 use CodeLabX\XtendLaravel\Commands\XtendPackageCommand;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -23,7 +24,7 @@ class XtendLaravelServiceProvider extends PackageServiceProvider
 
     public function registeringPackage()
     {
-        if (! $this->app->runningUnitTests()) {
+        if (! $this->app->runningUnitTests() && Schema::hasTable('xtend_packages')) {
             $this->registerPackageProviders();
             $this->registerWithPackageFacades();
         }
@@ -85,7 +86,7 @@ class XtendLaravelServiceProvider extends PackageServiceProvider
 
     public function bootingPackage()
     {
-        if (! $this->app->runningUnitTests()) {
+        if (! $this->app->runningUnitTests() && Schema::hasTable('xtend_packages')) {
             $this->bootWithPackageFacades();
         }
     }
