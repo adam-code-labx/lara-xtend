@@ -13,7 +13,6 @@ use CodeLabX\XtendLaravel\Commands\XtendPackageCommand;
 use CodeLabX\XtendLaravel\Facades\XtendLaravel;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -72,7 +71,6 @@ class XtendLaravelServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('xtend-laravel')
-            ->hasConfigFile('xtend/laravel')
             ->hasViews()
             ->hasMigration('create_xtend_packages-table')
             ->runsMigrations()
@@ -83,10 +81,14 @@ class XtendLaravelServiceProvider extends PackageServiceProvider
                 PackageProviderGenerator::class,
                 PackageFacadeGenerator::class,
             ]);
+
+        // @todo Do we really need this here?
+        $this->mergeConfigFrom($this->package->basePath("/../config/{$this->package->name}.php"), 'xtend/laravel');
     }
 
     public function bootingPackage()
     {
+        $this->publishesConfig();
         if (! $this->app->runningUnitTests() && XtendLaravel::manager()->enabled()) {
             $this->bootWithPackageFacades();
         }
@@ -97,6 +99,15 @@ class XtendLaravelServiceProvider extends PackageServiceProvider
         $this->extendedPackageFacades->each(function (ExtendsProvider|string $extendedProvider) {
             $extendedProvider::withBoot();
         });
+    }
+
+    protected function publishesConfig(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                $this->package->basePath("/../config/{$this->package->name}.php") => config_path("xtend/laravel.php"),
+            ], "{$this->package->shortName()}-config");
+        }
     }
 
     public function provides(): array
