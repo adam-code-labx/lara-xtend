@@ -30,8 +30,8 @@ class XtendPackageCommand extends Command
 
     public function handle(PackageManifest $packageManifest): int
     {
-        //$this->packageManifest = $packageManifest;
-        //$this->extendPackage();
+        $this->packageManifest = $packageManifest;
+        $this->extendPackage();
         $this->addPackageToDontDiscover();
 
         return self::SUCCESS;

@@ -6,6 +6,11 @@ class XtendPackageManager
 {
     public function __construct(protected XtendPackage $xtend) {}
 
+    public function enabled(): bool
+    {
+        return false;
+    }
+
     public function installPackage(PackageInfo $package): void
     {
         $this->xtend->create($package->toArray());

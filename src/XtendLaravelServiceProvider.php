@@ -10,6 +10,7 @@ use CodeLabX\XtendLaravel\Commands\Generator\PackageGenerator;
 use CodeLabX\XtendLaravel\Commands\Generator\PackageProviderGenerator;
 use CodeLabX\XtendLaravel\Commands\XtendLaravelSetupCommand;
 use CodeLabX\XtendLaravel\Commands\XtendPackageCommand;
+use CodeLabX\XtendLaravel\Facades\XtendLaravel;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
@@ -24,7 +25,11 @@ class XtendLaravelServiceProvider extends PackageServiceProvider
 
     public function registeringPackage()
     {
-        if (! $this->app->runningUnitTests() && Schema::hasTable('xtend_packages')) {
+        $this->app->singleton('xtend.package-manager', function () {
+            return new XtendPackageManager(resolve(XtendPackage::class));
+        });
+
+        if (! $this->app->runningUnitTests() && XtendLaravel::manager()->enabled()) {
             $this->registerPackageProviders();
             $this->registerWithPackageFacades();
         }
@@ -32,10 +37,6 @@ class XtendLaravelServiceProvider extends PackageServiceProvider
 
     protected function registerPackageProviders(): void
     {
-        $this->app->singleton('xtend.package-manager', function () {
-            return new XtendPackageManager(resolve(XtendPackage::class));
-        });
-
         $this->getPackageProviders()->each(function ($provider) {
             $this->app->register($provider);
         });
@@ -71,7 +72,7 @@ class XtendLaravelServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('xtend-laravel')
-            ->hasConfigFile()
+            ->hasConfigFile('xtend/laravel')
             ->hasViews()
             ->hasMigration('create_xtend_packages-table')
             ->runsMigrations()
@@ -86,7 +87,7 @@ class XtendLaravelServiceProvider extends PackageServiceProvider
 
     public function bootingPackage()
     {
-        if (! $this->app->runningUnitTests() && Schema::hasTable('xtend_packages')) {
+        if (! $this->app->runningUnitTests() && XtendLaravel::manager()->enabled()) {
             $this->bootWithPackageFacades();
         }
     }
