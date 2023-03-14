@@ -61,7 +61,6 @@ class PackageProviderGenerator extends GeneratorCommand
      *
      * @param  string  $stub
      * @param  string  $name
-     * @return string
      */
     protected function replacePackageProvider($stub, $name): string
     {
@@ -82,7 +81,6 @@ class PackageProviderGenerator extends GeneratorCommand
      *
      * @param  string  $stub
      * @param  string  $name
-     * @return string
      */
     protected function replaceClass($stub, $name): string
     {

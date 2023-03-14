@@ -30,8 +30,6 @@ abstract class GeneratorCommand extends \Illuminate\Console\GeneratorCommand
 
     /**
      * Get the root namespace for the class.
-     *
-     * @return string
      */
     protected function rootNamespace(): string
     {
@@ -43,7 +41,6 @@ abstract class GeneratorCommand extends \Illuminate\Console\GeneratorCommand
      *
      * @param  string  $stub
      * @param  string  $name
-     * @return string
      */
     protected function replaceClass($stub, $name): string
     {
@@ -52,8 +49,6 @@ abstract class GeneratorCommand extends \Illuminate\Console\GeneratorCommand
 
     /**
      * Get the package name.
-     *
-     * @return string
      */
     protected function getPackageName(): string
     {
