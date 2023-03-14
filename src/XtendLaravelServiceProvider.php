@@ -105,7 +105,7 @@ class XtendLaravelServiceProvider extends PackageServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                $this->package->basePath("/../config/{$this->package->name}.php") => config_path("xtend/laravel.php"),
+                $this->package->basePath("/../config/{$this->package->name}.php") => config_path('xtend/laravel.php'),
             ], "{$this->package->shortName()}-config");
         }
     }
