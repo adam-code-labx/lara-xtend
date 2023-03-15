@@ -15,7 +15,8 @@ class FileLoader extends \Illuminate\Translation\FileLoader
      */
     protected function loadNamespaceOverrides(array $lines, $locale, $group, $namespace)
     {
-        $file = "{$this->path}/{$locale}/{$group}.php";
+        $path = $this->paths[0] ?? app()->langPath();
+        $file = "{$path}/{$locale}/{$group}.php";
         if (! $this->files->exists($file)) {
             $file = app()->langPath()."/vendor/{$namespace}/{$locale}/{$group}.php";
         }
