@@ -9,5 +9,4 @@ use Illuminate\Support\ServiceProvider;
  */
 abstract class XtendFeatureProvider extends ServiceProvider
 {
-
 }
