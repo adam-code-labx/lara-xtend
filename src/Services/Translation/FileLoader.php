@@ -7,7 +7,6 @@ class FileLoader extends \Illuminate\Translation\FileLoader
     /**
      * Load a local namespaced translation group for overrides.
      *
-     * @param  array  $lines
      * @param  string  $locale
      * @param  string  $group
      * @param  string  $namespace
