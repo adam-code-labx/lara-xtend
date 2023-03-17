@@ -2,9 +2,9 @@
 
 namespace {{ namespace }};
 
-use CodeLabX\XtendLaravel\Base\ExtendsProvider;
+use CodeLabX\XtendLaravel\Base\XtendPackageProvider;
 
-class Xtend{{ class }} extends ExtendsProvider
+class Xtend{{ class }} extends XtendPackageProvider
 {
     /**
      * Extends register service provider

@@ -2,7 +2,7 @@
 
 namespace CodeLabX\XtendLaravel;
 
-use CodeLabX\XtendLaravel\Base\ExtendsProvider;
+use CodeLabX\XtendLaravel\Base\XtendPackageProvider;
 use CodeLabX\XtendLaravel\Base\XtendPackage;
 use CodeLabX\XtendLaravel\Base\XtendPackageManager;
 use CodeLabX\XtendLaravel\Commands\Generator\PackageFacadeGenerator;
@@ -62,7 +62,7 @@ class XtendLaravelServiceProvider extends PackageServiceProvider
 
     protected function registerWithPackageFacades(): void
     {
-        $this->extendedPackageFacades->each(function (ExtendsProvider|string $extendedProvider) {
+        $this->extendedPackageFacades->each(function (XtendPackageProvider|string $extendedProvider) {
             $extendedProvider::withRegister();
         });
     }
@@ -96,7 +96,7 @@ class XtendLaravelServiceProvider extends PackageServiceProvider
 
     protected function bootWithPackageFacades(): void
     {
-        $this->extendedPackageFacades->each(function (ExtendsProvider|string $extendedProvider) {
+        $this->extendedPackageFacades->each(function (XtendPackageProvider|string $extendedProvider) {
             $extendedProvider::withBoot();
         });
     }
